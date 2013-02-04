@@ -31,6 +31,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 
+/**
+ * 
+ * @author Robin Larsson
+ * @date Feb 4, 2013
+ *
+ */
 public class PlayActivity extends Activity {
 	
 	private int right_answers = 0;
@@ -40,6 +46,12 @@ public class PlayActivity extends Activity {
 	private ArrayList<Question> questionList = new ArrayList<Question>();
 	private SharedPreferences mPrefs;
 	
+	/**
+	 * Sets app icon to home icon in action bar
+	 * Get preferences if continue
+	 * Calls XML parser for questions
+	 * Calls display for next page
+	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {		
 		super.onCreate(savedInstanceState);
@@ -68,6 +80,9 @@ public class PlayActivity extends Activity {
 		this.next(0);
 	}
     
+	/**
+	 * Inflate the menu; this adds items to the action bar if it is present.
+	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -75,11 +90,20 @@ public class PlayActivity extends Activity {
 		return true;
 	}
     
+	/**
+	 * Calls function for menu logics
+	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		return MenuChoice(item);
 	}
 	    
+	/**
+	 * Logics for the menu
+	 * 
+	 * @param item
+	 * @return
+	 */
     private boolean MenuChoice(MenuItem item) {
     	switch (item.getItemId()) {
     		case android.R.id.home:
@@ -92,7 +116,9 @@ public class PlayActivity extends Activity {
 		return false;
 	}
 
-	// get the preferences from previous games
+	/**
+	 * Get the preferences from previous game
+	 */
     private void getPref() {
     	
     	this.setRightAnswers(mPrefs.getInt("right_answers", this.getRightAnswers()));
@@ -100,6 +126,10 @@ public class PlayActivity extends Activity {
     	this.setQuestionNbr(mPrefs.getInt("question_nbr", this.getQuestionNbr()));
     }
     
+    /**
+     * Set preferences for current score so we can start 
+     * from where we was before quit current game
+     */
     private void setPref() {    	
     	
     	// start editor for preferences and set latest values
@@ -110,43 +140,61 @@ public class PlayActivity extends Activity {
         ed.commit();
     }
     
-	@Override
+    /**
+     * 
+     */
+	/*@Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
     	
     	super.onRestoreInstanceState(savedInstanceState);
     	this.setRightAnswers(savedInstanceState.getInt("right_answers"));
     	this.setWrongAnswers(savedInstanceState.getInt("wrong_answers"));
     	this.setQuestionNbr(savedInstanceState.getInt("question_nbr"));
-    }
+    }*/
     
-	@Override
+	/**
+	 * 
+	 */
+	/*@Override
     public void onSaveInstanceState(Bundle b) {
     	
     	b.putInt("right_answers", this.getRightAnswers());
     	b.putInt("wrong_answers", this.getWrongAnswers());
     	b.putInt("question_nbr", this.getQuestionNbr());
     	super.onSaveInstanceState(b);  	
-    }
+    }*/
     
+	/**
+	 * 
+	 */
     protected void onPause() {
     	// save preferences when activity goes in background or is recreated
         this.setPref();
     	super.onPause();
     }
     
+    /**
+     * 
+     */
     protected void onDestroy() {
     	// save preferences when activity goes in background or is recreated
         this.setPref();
     	super.onDestroy();
     }
 	
-    // when start button on result screen is pressed
+    /**
+     * When start button on result screen is pressed
+     * 
+     * @param view
+     */
 	public void onClickRestart(View view) {
 		
 		this.restartPlay();
 	}
 	
-	// reset all the values
+	/**
+	 * Reset all the values
+	 */
 	public void resetValues() {
 		
 		this.setRightAnswers(0);
@@ -154,14 +202,18 @@ public class PlayActivity extends Activity {
 		this.setQuestionNbr(0);
 	}
 	
-	// start from first question
+	/**
+	 * Start from first question
+	 */
 	private void restartPlay() {	
 		
 		this.resetValues();
 		this.startQuestion();
 	}
 	
-	// start fragments for result screen
+	/**
+	 * Start fragments for result screen
+	 */
 	private void startResult() {		
 		
 		// results only needs one type of fragment to display all content
@@ -170,8 +222,10 @@ public class PlayActivity extends Activity {
 		ResultFragment portrait_fragment = new ResultFragment();
 		this.callFragments(landscape_fragment, portrait_fragment);
 	}
-
-	// start fragments for question screen
+	
+	/**
+	 * Start fragments for question screen
+	 */
 	private void startQuestion() {
 		
 		// landscape has smaller but wider buttons than portrait
@@ -180,7 +234,12 @@ public class PlayActivity extends Activity {
 		this.callFragments(landscape_fragment, portrait_fragment);
 	}
 	
-	// common code for fragments
+	/**
+	 * Common code for fragments
+	 * 
+	 * @param landscape_fragment
+	 * @param portrait_fragment
+	 */
 	private void callFragments(Fragment landscape_fragment, Fragment portrait_fragment) {
 		
 		FragmentManager fragmentManager = getFragmentManager();
@@ -215,19 +274,40 @@ public class PlayActivity extends Activity {
 		fragmentTransaction.commit();
 	}
 	
+	/**
+	 * 
+	 * @param number
+	 * @return
+	 */
 	public Question getQuestion(int number) {
 		return this.questionList.get(number);
 	}
 	
+	/**
+	 * 
+	 * @param number
+	 * @return
+	 */
 	public ArrayList<Answer> getAnswers(int number) {
 		return this.questionList.get(number).getAnswerList();
 	}
 	
+	/**
+	 * 
+	 * @param number
+	 * @param answer
+	 * @return
+	 */
 	public Answer getAnswer(int number, int answer) {
 		return this.questionList.get(number).getAnswerList().get(answer);
 	}
 	
-	// read from the XML file
+	/**
+	 * Read from the XML file
+	 * 
+	 * @return
+	 * @throws IOException
+	 */
 	public String fetchQuestions() throws IOException {
 				
 		Resources res = getResources();
@@ -251,28 +331,44 @@ public class PlayActivity extends Activity {
 		return content;
 	}	
 	
-	// check the field correct for a question
-	private int getCorrect(int number) {
+	/**
+	 * Check the if answer is correct for a question
+	 * 
+	 * @param number
+	 * @return
+	 */
+	private boolean getIsCorrect(int number) {
 		
-		int correct = this.getQuestion(this.getQuestionNbr()).getAnswer(number).getCorrect();
-		return correct;
+		boolean is_correct = this.getQuestion(this.getQuestionNbr()).getAnswer(number).getIsCorrect();
+		return is_correct;
 	}
 	
+	/**
+	 * Increment number of correct answers for current score
+	 */
 	private void increseRightAnswer() {
 		
 		this.setRightAnswers((this.getRightAnswers() + 1));
 	}
 	
+	/**
+	 * Increment number of incorrect answers for current score
+	 */
 	private void increseWrongAnswer() {
 		
 		this.setWrongAnswers((this.getWrongAnswers() + 1));
 	}
 	
-	// check if answer is correct or not and add score
+	
+	/**
+	 * Check if answer is correct or not and add score
+	 * 
+	 * @param number
+	 */
 	private void addPoints(int number) {
 		
-		int correct = this.getCorrect(number);
-		if(correct == 1) {
+		boolean is_correct = this.getIsCorrect(number);
+		if(is_correct == true) {
 			this.increseRightAnswer();
 		}
 		else {
@@ -280,6 +376,11 @@ public class PlayActivity extends Activity {
 		}
 	}
 	
+	/**
+	 * Check if to display next question or show the results
+	 * 
+	 * @param increase
+	 */
 	private void next(int increase) {
 		
 		this.setQuestionNbr((this.getQuestionNbr() + increase));
@@ -296,7 +397,12 @@ public class PlayActivity extends Activity {
 		}
 	}
 	
-	// click on answer 1
+	/**
+	 * Handler for click on answer 1 that checks 
+	 * where to increment points and run next
+	 * 
+	 * @param view
+	 */
 	public void onClick1(View view) {
 		
 		// check if answer is correct or not and add score
@@ -304,24 +410,36 @@ public class PlayActivity extends Activity {
 		this.next(1);
 	}
 	
-	// click on answer 2
+	/**
+	 * Handler for click on answer 2 that checks 
+	 * where to increment points and run next
+	 * 
+	 * @param view
+	 */
 	public void onClick2(View view) {
 		
 		this.addPoints(1);
 		this.next(1);
 	}
 	
-	// click on answer 3
+	/**
+	 * Handler for click on answer 3 that checks 
+	 * where to increment points and run next
+	 * 
+	 * @param view
+	 */
 	public void onClick3(View view) {
 		
 		this.addPoints(2);
 		this.next(1);
 	}
 	
+	/**
+	 * Parse the XML with questions and add to questionList
+	 */
 	private void parseXML() {
         
-        try {
- 
+        try { 
             /** Handling XML */
             SAXParserFactory spf = SAXParserFactory.newInstance();
             SAXParser sp = spf.newSAXParser();
@@ -350,34 +468,70 @@ public class PlayActivity extends Activity {
         }        
     }	
 
+	/**
+	 * 
+	 * @return question_nbr for current question
+	 */
 	public int getQuestionNbr() {
 		return question_nbr;
 	}
 
+	/**
+	 * Set question_nbr for current question
+	 * 
+	 * @param question_nbr
+	 */
 	public void setQuestionNbr(int question_nbr) {
 		this.question_nbr = question_nbr;
 	}
 
+	/**
+	 * 
+	 * @return questionList for current trivia
+	 */
 	public ArrayList<Question> getQuestionList() {
 		return questionList;
 	}
 
+	/**
+	 * Set questionList for current trivia
+	 * 
+	 * @param questionList
+	 */
 	public void setQuestionList(ArrayList<Question> questionList) {
 		this.questionList = questionList;
 	}
 
+	/**
+	 * 
+	 * @return amount of right_answers for current score
+	 */
 	public int getRightAnswers() {
 		return right_answers;
 	}
 
+	/**
+	 * Set amount of right_answers for current score
+	 * 
+	 * @param right_answers 
+	 */
 	public void setRightAnswers(int right_answers) {
 		this.right_answers = right_answers;
 	}
 
+	/**
+	 * 
+	 * @return amount of wrong_answers for current score
+	 */
 	public int getWrongAnswers() {
 		return wrong_answers;
 	}
 
+	/**
+	 * Set amount of wrong answers on current score
+	 * 
+	 * @param wrong_answers
+	 */
 	public void setWrongAnswers(int wrong_answers) {
 		this.wrong_answers = wrong_answers;
 	}

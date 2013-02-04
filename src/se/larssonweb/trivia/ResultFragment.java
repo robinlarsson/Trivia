@@ -10,8 +10,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+/**
+ * 
+ * @author Robin Larsson
+ * @date Feb 4, 2013
+ *
+ */
 public class ResultFragment extends Fragment {
 	
+	/**
+	 * 
+	 */
     @Override
     public View onCreateView(LayoutInflater inflater, 
     						 ViewGroup container, Bundle savedInstanceState) {
@@ -24,6 +33,9 @@ public class ResultFragment extends Fragment {
             R.layout.result, container, false);
     }
     
+    /**
+     * 
+     */
     @Override
     public void onStart() {
         super.onStart();

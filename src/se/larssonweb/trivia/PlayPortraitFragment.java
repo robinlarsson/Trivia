@@ -12,11 +12,20 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+/**
+ * 
+ * @author Robin Larsson
+ * @date Feb 4, 2013
+ *
+ */
 public class PlayPortraitFragment extends Fragment {
 	
 	public Question question = null;
 	private int[] rand = {0, 1, 2};
 	
+	/**
+	 * 
+	 */
     @Override
     public View onCreateView(LayoutInflater inflater, 
     						 ViewGroup container, Bundle savedInstanceState) {
@@ -30,6 +39,9 @@ public class PlayPortraitFragment extends Fragment {
             R.layout.play, container, false);
     }
     
+    /**
+     * 
+     */
     @Override
     public void onStart() {
         super.onStart();
@@ -37,7 +49,7 @@ public class PlayPortraitFragment extends Fragment {
         TextView question = (TextView)
             getActivity().findViewById(R.id.question);
         // get the text for the question
-        question.setText(this.question.getQuestion());
+        question.setText(this.question.getName());
         
         shuffleArray(this.rand);
         
@@ -45,21 +57,24 @@ public class PlayPortraitFragment extends Fragment {
         Button btnAnswer1 = (Button) 
             getActivity().findViewById(R.id.btnAnswer1);
         // get the text for the first answer
-        btnAnswer1.setText(this.question.getAnswer(this.rand[0]).getAnswer());
+        btnAnswer1.setText(this.question.getAnswer(this.rand[0]).getName());
         
         //---Button view---
         Button btnAnswer2 = (Button) 
             getActivity().findViewById(R.id.btnAnswer2);
-        btnAnswer2.setText(this.question.getAnswer(this.rand[1]).getAnswer());
+        btnAnswer2.setText(this.question.getAnswer(this.rand[1]).getName());
         
         //---Button view---
         Button btnAnswer3 = (Button) 
             getActivity().findViewById(R.id.btnAnswer3);
-        btnAnswer3.setText(this.question.getAnswer(this.rand[2]).getAnswer());           
+        btnAnswer3.setText(this.question.getAnswer(this.rand[2]).getName());           
     }
     
-    
-    // Implementing Fisher–Yates shuffle
+    /**
+     * Implementing Fisher–Yates shuffle
+     * 
+     * @param ar
+     */
     static void shuffleArray(int[] ar)
     {
 	  Random rnd = new Random();

@@ -7,11 +7,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-// extend from portrait to use the same onstart logic code
+/**
+ * Extend from portrait to use the same onstart logic code
+ * 
+ * @author Robin Larsson
+ * @date Feb 4, 2013
+ *
+ */
 public class PlayLandscapeFragment extends PlayPortraitFragment {
-	
-	//public Question question = null;
-	
+		
+	/**
+	 * 
+	 */
     @Override
     public View onCreateView(LayoutInflater inflater, 
     						 ViewGroup container, Bundle savedInstanceState) {

@@ -6,16 +6,26 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-// used example from http://www.mysamplecode.com/2011/11/android-parse-xml-file-example-using.html
+/**
+ *  Used example from 
+ *  http://www.mysamplecode.com/2011/11/android-parse-xml-file-example-using.html
+ * 
+ * @author Robin Larsson
+ * @date Feb 4, 2013
+ *
+ */
 public class QuestionXMLHandler extends DefaultHandler {
 		 
     public Boolean currentElement = false;
     public String currentValue = "";
     public Answer answer;    
     public Question question;
+    private int question_nbr = 0;
     private ArrayList<Question> questionList = new ArrayList<Question>();
  
-    // Called when tag starts 
+    /**
+     *  Called when tag starts 
+     */
     @Override
     public void startElement(String uri, String localName, String qName,
             Attributes attributes) throws SAXException {
@@ -36,12 +46,14 @@ public class QuestionXMLHandler extends DefaultHandler {
 	       	// only set correct if there is a attribute for it
 	       	if(attributes.getValue("correct") != null) {
 	       		
-	       		this.answer.setCorrect(Integer.parseInt(attributes.getValue("correct")));
+	       		this.answer.setIsCorrect(Boolean.parseBoolean(attributes.getValue("correct")));
 	       	}        	
         }
     }
  
-    // Called when tag closing 
+    /**
+     *  Called when tag closing 
+     */
     @Override
     public void endElement(String uri, String localName, String qName)
     						throws SAXException {
@@ -51,15 +63,15 @@ public class QuestionXMLHandler extends DefaultHandler {
         /** set value */
         if (localName.equalsIgnoreCase("item")) {
         	
-        	this.question.setQuestion(this.currentValue);
-        }
-        else if (localName.equalsIgnoreCase("question_nbr")) {
-        	
-        	this.question.setQuestionNbr(Integer.parseInt(this.currentValue));
+        	this.question.setName(this.currentValue);
+        	// set question number in this class for current question
+        	this.setQuestionNbr((this.getQuestionNbr() + 1));
+        	// set question number in question for current question
+        	this.question.setQuestionNbr(this.getQuestionNbr());
         }        
         else if (localName.equalsIgnoreCase("answer")) {
         	
-        	this.answer.setAnswer(this.currentValue);
+        	this.answer.setName(this.currentValue);
         	this.answer.setQuestion(this.question);
         	this.question.addToAnswerList(this.answer);
         }        
@@ -70,7 +82,9 @@ public class QuestionXMLHandler extends DefaultHandler {
         }
     }
  
-    // Called to get tag characters 
+    /**
+     *  Called to get tag characters 
+     */
     @Override
     public void characters(char[] ch, int start, int length)
     						throws SAXException {
@@ -82,8 +96,26 @@ public class QuestionXMLHandler extends DefaultHandler {
  
     }
     
+    /**
+     * 
+     * @return
+     */
     public ArrayList<Question> getQuestionsList() {
         return questionList;
     }
+
+	/**
+	 * @return the question_nbr
+	 */
+	public int getQuestionNbr() {
+		return question_nbr;
+	}
+
+	/**
+	 * @param question_nbr the question_nbr to set
+	 */
+	public void setQuestionNbr(int question_nbr) {
+		this.question_nbr = question_nbr;
+	}
     
 }

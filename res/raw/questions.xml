@@ -2,56 +2,50 @@
 <questions>
     <question>
         <item>Who was the United States third president?</item>
-        <question_nbr>1</question_nbr>
         <answers>
 	        <answer>John Adams</answer>
 	        <answer>James Madison</answer>
-	        <answer correct="1">Thomas Jefferson</answer>
+	        <answer correct="true">Thomas Jefferson</answer>
 	    </answers>
     </question>
     <question>    
         <item>What is a Pokemon?</item>
-        <question_nbr>2</question_nbr>
 	    <answers>
 	        <answer>A newly discovered animal in Madagascar</answer>
-	        <answer correct="1">Made up figures in a tv show in Anime style</answer>
+	        <answer correct="true">Made up figures in a tv show in Anime style</answer>
 	        <answer>A tool to poke people that moones with</answer>
 	    </answers>
     </question>
     <question>    
         <item>What is the most important rule for diving?</item>
-        <question_nbr>3</question_nbr>
         <answers>
             <answer>Never shut your eyes</answer>
-            <answer correct="1">Never hold your breath</answer>
+            <answer correct="true">Never hold your breath</answer>
             <answer>Always have a diving partner</answer>
         </answers>
     </question>
     <question>    
         <item>What is whisky?</item>
-        <question_nbr>4</question_nbr>
         <answers>
-            <answer correct="1">The most awesome bewerages there is!</answer>
+            <answer correct="true">The most awesome bewerages there is!</answer>
             <answer>Holy water</answer>
             <answer>Holy shit</answer>
         </answers>
     </question>
     <question>    
         <item>What is Android?</item>
-        <question_nbr>5</question_nbr>
         <answers>
-            <answer correct="1">An Open Source OS for mobile devices</answer>
+            <answer correct="true">An Open Source OS for mobile devices</answer>
             <answer>A cool robot</answer>
             <answer>A particle in America</answer>
         </answers>
     </question>
     <question>    
         <item>How did Android get its name?</item>
-        <question_nbr>6</question_nbr>
         <answers>
             <answer>Because it means robotic freedom</answer>
             <answer>After the cool robot</answer>
-            <answer correct="1">After the founder Andy Rubin</answer>
+            <answer correct="true">After the founder Andy Rubin</answer>
         </answers>
     </question>
 </questions>
