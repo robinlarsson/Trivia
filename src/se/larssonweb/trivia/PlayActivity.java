@@ -1,4 +1,4 @@
-package com.umu.assignment1;
+package se.larssonweb.trivia;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -12,20 +12,26 @@ import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 
+import se.larssonweb.trivia.R;
+
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 
-public class Play extends Activity {
+public class PlayActivity extends Activity {
 	
 	private int right_answers = 0;
 	private int wrong_answers = 0;
@@ -38,25 +44,57 @@ public class Play extends Activity {
 	public void onCreate(Bundle savedInstanceState) {		
 		super.onCreate(savedInstanceState);
 		
-		// get the preferences from previous games
-		this.getPref();
+		ActionBar ab = getActionBar();
+		ab.setDisplayHomeAsUpEnabled(true);
+		
+		// get preferences for trivia
+    	this.mPrefs = getSharedPreferences("trivia", 0);
+		
+		//---get the Bundle object passed in---
+		Bundle bundle = getIntent().getExtras();
+		//Boolean continue_game = true;
+		
+		if(bundle != null) {
+			Boolean continue_game = bundle.getBoolean("continue");
+			// get the preferences from previous games
+			if(continue_game) {
+				this.getPref();
+			}
+		}		
+		
 		// parse the XML file that is container for the questions
 		this.parseXML();
 		// start the poll with same question number
 		this.next(0);
 	}
-	
-    protected void onPause() {
-        super.onPause();
-        // save preferences when activity goes in background or is recreated
-        this.setPref();
-    }
     
-    // get the preferences from previous games
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.trivia_activity, menu);
+		return true;
+	}
+    
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		return MenuChoice(item);
+	}
+	    
+    private boolean MenuChoice(MenuItem item) {
+    	switch (item.getItemId()) {
+    		case android.R.id.home:
+    			Intent i = new Intent(this, TriviaActivity.class);
+    			i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    			startActivity(i);
+    			
+    			return true;
+    	}
+		return false;
+	}
+
+	// get the preferences from previous games
     private void getPref() {
     	
-    	// get preferences for assignment1
-    	this.mPrefs = getSharedPreferences("assignment1", 0);
     	this.setRightAnswers(mPrefs.getInt("right_answers", this.getRightAnswers()));
     	this.setWrongAnswers(mPrefs.getInt("wrong_answers", this.getWrongAnswers()));
     	this.setQuestionNbr(mPrefs.getInt("question_nbr", this.getQuestionNbr()));
@@ -70,6 +108,36 @@ public class Play extends Activity {
         ed.putInt("wrong_answers", this.getWrongAnswers());
         ed.putInt("question_nbr", this.getQuestionNbr());
         ed.commit();
+    }
+    
+	@Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+    	
+    	super.onRestoreInstanceState(savedInstanceState);
+    	this.setRightAnswers(savedInstanceState.getInt("right_answers"));
+    	this.setWrongAnswers(savedInstanceState.getInt("wrong_answers"));
+    	this.setQuestionNbr(savedInstanceState.getInt("question_nbr"));
+    }
+    
+	@Override
+    public void onSaveInstanceState(Bundle b) {
+    	
+    	b.putInt("right_answers", this.getRightAnswers());
+    	b.putInt("wrong_answers", this.getWrongAnswers());
+    	b.putInt("question_nbr", this.getQuestionNbr());
+    	super.onSaveInstanceState(b);  	
+    }
+    
+    protected void onPause() {
+    	// save preferences when activity goes in background or is recreated
+        this.setPref();
+    	super.onPause();
+    }
+    
+    protected void onDestroy() {
+    	// save preferences when activity goes in background or is recreated
+        this.setPref();
+    	super.onDestroy();
     }
 	
     // when start button on result screen is pressed

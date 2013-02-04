@@ -1,4 +1,6 @@
-package com.umu.assignment1;
+package se.larssonweb.trivia;
+
+import se.larssonweb.trivia.R;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,12 +16,12 @@ public class PlayLandscapeFragment extends PlayPortraitFragment {
     public View onCreateView(LayoutInflater inflater, 
     						 ViewGroup container, Bundle savedInstanceState) {
         
-    	Play play = ((Play) getActivity());
+    	PlayActivity play = ((PlayActivity) getActivity());
     	// set the current Question object
     	this.question = play.getQuestion(play.getQuestionNbr());
     	//---Inflate the layout for this fragment---    	
         return inflater.inflate(
-            R.layout.play_landscape, container, false);
+            R.layout.play, container, false);
     }
     
 }

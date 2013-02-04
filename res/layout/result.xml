@@ -49,7 +49,7 @@
         android:layout_width="wrap_content"
         android:layout_height="50sp"
         android:layout_gravity="center"
-        android:text="@string/start_button"                
+        android:text="@string/restartBtn"                
         android:onClick="onClickRestart" />
 
 </LinearLayout>

@@ -1,4 +1,8 @@
-package com.umu.assignment1;
+package se.larssonweb.trivia;
+
+import java.util.Random;
+
+import se.larssonweb.trivia.R;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -11,17 +15,19 @@ import android.widget.TextView;
 public class PlayPortraitFragment extends Fragment {
 	
 	public Question question = null;
+	private int[] rand = {0, 1, 2};
 	
     @Override
     public View onCreateView(LayoutInflater inflater, 
     						 ViewGroup container, Bundle savedInstanceState) {
     	
-    	Play play = ((Play) getActivity());
+    	PlayActivity play = ((PlayActivity) getActivity());
     	// set the current Question object
     	this.question = play.getQuestion(play.getQuestionNbr());
+    	
         //---Inflate the layout for this fragment---
         return inflater.inflate(
-            R.layout.play_portrait, container, false);
+            R.layout.play, container, false);
     }
     
     @Override
@@ -33,21 +39,38 @@ public class PlayPortraitFragment extends Fragment {
         // get the text for the question
         question.setText(this.question.getQuestion());
         
+        shuffleArray(this.rand);
+        
         //---Button view---
         Button btnAnswer1 = (Button) 
             getActivity().findViewById(R.id.btnAnswer1);
         // get the text for the first answer
-        btnAnswer1.setText(this.question.getAnswer(0).getAnswer());
+        btnAnswer1.setText(this.question.getAnswer(this.rand[0]).getAnswer());
         
         //---Button view---
         Button btnAnswer2 = (Button) 
             getActivity().findViewById(R.id.btnAnswer2);
-        btnAnswer2.setText(this.question.getAnswer(1).getAnswer());
+        btnAnswer2.setText(this.question.getAnswer(this.rand[1]).getAnswer());
         
         //---Button view---
         Button btnAnswer3 = (Button) 
             getActivity().findViewById(R.id.btnAnswer3);
-        btnAnswer3.setText(this.question.getAnswer(2).getAnswer());           
+        btnAnswer3.setText(this.question.getAnswer(this.rand[2]).getAnswer());           
+    }
+    
+    
+    // Implementing Fisher–Yates shuffle
+    static void shuffleArray(int[] ar)
+    {
+	  Random rnd = new Random();
+	  for (int i = ar.length - 1; i >= 0; i--)
+	  {
+	    int index = rnd.nextInt(i + 1);
+	    // Simple swap
+	    int a = ar[index];
+	    ar[index] = ar[i];
+	    ar[i] = a;
+	  }
     }
 
 }

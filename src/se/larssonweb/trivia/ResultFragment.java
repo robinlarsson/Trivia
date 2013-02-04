@@ -1,5 +1,8 @@
-package com.umu.assignment1;
+package se.larssonweb.trivia;
 
+import se.larssonweb.trivia.R;
+
+import android.app.ActionBar;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,6 +16,9 @@ public class ResultFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, 
     						 ViewGroup container, Bundle savedInstanceState) {
     	
+		ActionBar ab = getActivity().getActionBar();
+		ab.setDisplayHomeAsUpEnabled(true);
+		
         //---Inflate the layout for this fragment---
         return inflater.inflate(
             R.layout.result, container, false);
@@ -22,7 +28,7 @@ public class ResultFragment extends Fragment {
     public void onStart() {
         super.onStart();
         
-        Play play = ((Play) getActivity());
+        PlayActivity play = ((PlayActivity) getActivity());
         
         TextView ra = (TextView)
             getActivity().findViewById(R.id.right_answers);

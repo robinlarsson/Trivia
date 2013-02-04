@@ -1,4 +1,4 @@
-package com.umu.assignment1;
+package se.larssonweb.trivia;
 
 public class Answer {
 	
